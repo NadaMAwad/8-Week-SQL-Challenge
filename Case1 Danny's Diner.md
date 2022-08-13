@@ -1,4 +1,5 @@
-# Case 1 
+# [Case 1](https://8weeksqlchallenge.com/case-study-1/) 
+
 ## Create Data Set
 
 ````sql
