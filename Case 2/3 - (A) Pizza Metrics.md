@@ -2,7 +2,7 @@
 ```sql
 SELECT 
 	COUNT(order_id) Pizzas_ordered
-	FROM #customer_orders
+FROM #customer_orders
 ```
 **Result:**
 | pizza\_orders |
@@ -13,7 +13,7 @@ SELECT
 ```sql 
 SELECT 
 	COUNT(DISTINCT order_id)  unique_orders
-	FROM #customer_orders
+FROM #customer_orders
 ```
 **Result:**
 | order\_count  |
@@ -39,10 +39,68 @@ ORDER BY successful_orders DESC
 
 ## 4. How many of each type of pizza was delivered?
 ```sql
+SELECT
+	pizza_id, COUNT(pizza_id)  delivered_pizza
+FROM #customer_orders  c , #runner_orders AS r
+WHERE c.order_id = r.order_id
+AND cancellation NOT IN ('Restaurant Cancellation', 'Customer Cancellation')
+GROUP BY pizza_id
+```
+ **Result:**
+|  pizza\_ID  | delivered\_pizza         |
+| ----------- | ------------------------ |
+| 1           | 9                        |
+| 2           | 3                        |
 
+## 5. How many Vegetarian and Meatlovers were ordered by each customer?
+
+```sql
+SELECT
+  customer_id,
+  SUM(CASE WHEN pizza_id = 1 THEN 1 ELSE 0 END) AS meat_lovers,
+  SUM(CASE WHEN pizza_id = 2 THEN 1 ELSE 0 END) AS vegetarian
+FROM #customer_orders
+GROUP BY customer_id
+```
+  **Result:**
+  | customer\_id | meatlovers | vegetarian |
+| ------------ | ---------- | ---------- |
+| 101          | 2          | 1          |
+| 102          | 2          | 1          |
+| 103          | 3          | 1          |
+| 104          | 3          | 0          |
+| 105          | 0          | 1          |
+
+## 6. What was the maximum number of pizzas delivered in a single order?
+```sql
+WITH PIZZA_ AS
+(
+SELECT c.order_id, COUNT(c.pizza_id) AS pizzas_per_order
+FROM #customer_orders  c, #runner_orders  r
+WHERE c.order_id = r.order_id
+AND cancellation NOT IN ('Restaurant Cancellation', 'Customer Cancellation')
+GROUP BY c.order_id
+)
+
+SELECT MAX(pizzas_per_order) AS max\_count
+FROM PIZZA_
+```
+  **Result:**
+| max\_count |
+| ---------- |
+| 3          |
+
+## 7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+```sql
 ```
 
 
+```sql
+```
+
+
+```sql
+```
 
 ```sql
 ```
