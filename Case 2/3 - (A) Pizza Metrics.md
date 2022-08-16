@@ -1,7 +1,7 @@
 ## 1. How many pizzas were ordered?
 ```sql
 SELECT 
-	COUNT(order_id) Pizzas_ordered
+COUNT(order_id) Pizzas_ordered
 FROM #customer_orders
 ```
 **Result:**
@@ -12,7 +12,7 @@ FROM #customer_orders
 ## 2. How many unique customer orders were made?
 ```sql 
 SELECT 
-	COUNT(DISTINCT order_id)  unique_orders
+COUNT(DISTINCT order_id)  unique_orders
 FROM #customer_orders
 ```
 **Result:**
@@ -40,7 +40,7 @@ ORDER BY successful_orders DESC
 ## 4. How many of each type of pizza was delivered?
 ```sql
 SELECT
-	pizza_id, COUNT(pizza_id)  delivered_pizza
+   pizza_id, COUNT(pizza_id)  delivered_pizza
 FROM #customer_orders  c , #runner_orders AS r
 WHERE c.order_id = r.order_id
 AND cancellation NOT IN ('Restaurant Cancellation', 'Customer Cancellation')
@@ -75,14 +75,17 @@ GROUP BY customer_id
 ```sql
 WITH PIZZA_ AS
 (
-SELECT c.order_id, COUNT(c.pizza_id) AS pizzas_per_order
+SELECT 
+   c.order_id,
+   COUNT(c.pizza_id)  pizzas_per_order
 FROM #customer_orders  c, #runner_orders  r
 WHERE c.order_id = r.order_id
 AND cancellation NOT IN ('Restaurant Cancellation', 'Customer Cancellation')
 GROUP BY c.order_id
 )
 
-SELECT MAX(pizzas_per_order) AS max\_count
+SELECT 
+    MAX(pizzas_per_order)  max\_count
 FROM PIZZA_
 ```
   **Result:**
@@ -94,13 +97,14 @@ FROM PIZZA_
 ```sql
 ```
 
-
+## 8. How many pizzas were delivered that had both exclusions and extras?
 ```sql
 ```
 
-
+## 9. What was the total volume of pizzas ordered for each hour of the day?
 ```sql
 ```
 
+## 10. What was the volume of orders for each day of the week?
 ```sql
 ```
